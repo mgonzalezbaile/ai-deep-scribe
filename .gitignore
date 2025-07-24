@@ -1,0 +1,11 @@
+docs/
+.vscode/
+**/.pytest_cache/
+**/__pycache__/
+.env
+.venv/
+baml_client/
+.cursor/
+.idea/
+.langgraph_api/
+infrastructure/
