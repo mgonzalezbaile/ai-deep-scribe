@@ -15,7 +15,7 @@ function AskForClarification(messages: string, date: string) -> ClarificationRes
         These are the messages that have been exchanged so far from the user asking for the post:
         {{messages}}
 
-        Today's date is {{date}}.
+        Today's date is {{date}}. 
 
         Assess whether you need to ask a clarifying question, or if the user has already provided enough information for you to start research.
         IMPORTANT: If you can see in the messages history that you have already asked a clarifying question, you almost always do not need to ask another one. Only ask another question if ABSOLUTELY NECESSARY.

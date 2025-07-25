@@ -4,7 +4,7 @@ client<llm> OpenRouter {
   options {
     base_url "https://openrouter.ai/api/v1"
     api_key env.OPENROUTER_API_KEY
-    model env.LLM_MODEL
+    model deepseek/deepseek-chat-v3-0324
     temperature 0.0
     headers {
       "X-Title" "Zapier project"

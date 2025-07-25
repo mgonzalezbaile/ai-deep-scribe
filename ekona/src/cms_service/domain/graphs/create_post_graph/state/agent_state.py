@@ -1,15 +1,15 @@
-from typing import Annotated, Optional
+from enum import Enum
+from typing import Optional
 from langgraph.graph import MessagesState
 from langchain_core.messages import MessageLikeRepresentation
 from pydantic import BaseModel, Field
-import operator
 
 
-def override_reducer(current_value, new_value):
-    if isinstance(new_value, dict) and new_value.get("type") == "override":
-        return new_value.get("value", new_value)
-    else:
-        return operator.add(current_value, new_value)
+class Nodes(Enum):
+    CLARIFY_WITH_USER = "clarify_with_user"
+    WRITE_RESEARCH_BRIEF = "write_research_brief"
+    ORCHESTRATE_RESEARCH = "orchestrate_research"
+    GENERATE_POST = "generate_post"
 
 
 class AgentInputState(MessagesState):
@@ -17,11 +17,12 @@ class AgentInputState(MessagesState):
 
 
 class AgentState(MessagesState):
-    supervisor_messages: Annotated[list[MessageLikeRepresentation], override_reducer]
+    next_step: Nodes
+    supervisor_messages: list[MessageLikeRepresentation]
     research_brief: Optional[str]
-    raw_notes: Annotated[list[str], override_reducer] = []
-    notes: Annotated[list[str], override_reducer] = []
+    raw_notes: list[str] = []
     final_report: str
+    post: Optional[str]
 
 
 class ClarifyWithUser(BaseModel):
