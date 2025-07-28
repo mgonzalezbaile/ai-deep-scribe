@@ -8,8 +8,8 @@ function AskForClarification(messages: string, date: string) -> ClarificationRes
     client OpenRouter
     prompt #"
         {{ _.role("system") }}
-        You are a helpful assistant that helps the user to create a post that requires a deep research about the topic.
-        Your goal now is to ensure that you have enough information about the topic of the post to start the research process.
+        You are a copywriter assistant that helps the user to create a post.
+        Your goal now is to ensure that you have enough information about the topic of the post.
 
         {{ _.role("user") }}
         These are the messages that have been exchanged so far from the user asking for the post:
@@ -17,21 +17,14 @@ function AskForClarification(messages: string, date: string) -> ClarificationRes
 
         Today's date is {{date}}. 
 
-        Assess whether you need to ask a clarifying question, or if the user has already provided enough information for you to start research.
-        IMPORTANT: If you can see in the messages history that you have already asked a clarifying question, you almost always do not need to ask another one. Only ask another question if ABSOLUTELY NECESSARY.
+        Assess whether you need to ask a clarifying question, or if the user has already provided enough information about the topic of the post.
 
         If there are acronyms, abbreviations, or unknown terms, ask the user to clarify.
         If you need to ask a question, follow these guidelines:
         - Be concise while gathering all necessary information
-        - Make sure to gather all the information needed to carry out the research task in a concise, well-structured manner.
+        - Make sure to gather all the information needed to start working on the post.
         - Use bullet points or numbered lists if appropriate for clarity. Make sure that this uses markdown formatting and will be rendered correctly if the string output is passed to a markdown renderer.
         - Don't ask for unnecessary information, or information that the user has already provided. If you can see that the user has already provided the information, do not ask for it again.
-
-        For the verification message when no clarification is needed:
-        - Acknowledge that you have sufficient information to proceed
-        - Briefly summarize the key aspects of what you understand from their request
-        - Confirm that you will now begin the research process
-        - Keep the message concise and professional
     {{ ctx.output_format }}
     "#
 }
