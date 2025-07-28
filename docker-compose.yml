@@ -1,5 +1,5 @@
 services:
-  api:
+  backend:
     container_name: deep-scribe-api
     build:
       context: ./deep-scribe
@@ -8,3 +8,13 @@ services:
       - "8000:8000"
     env_file:
       - ./deep-scribe/.env
+
+  web-ui:
+    container_name: deep-scribe-web-ui
+    build:
+      context: ./web-ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

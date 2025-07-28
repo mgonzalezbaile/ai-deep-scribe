@@ -5,4 +5,4 @@ run:
 	docker-compose up --build
 
 test:
-	docker-compose run --rm api /app/.venv/bin/python -m pytest tests/
+	docker-compose run --rm backend /app/.venv/bin/python -m pytest tests/
