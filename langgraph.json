@@ -1,7 +1,7 @@
 {
     "dockerfile_lines": [],
     "graphs": {
-      "Create Post": "./src/cms_service/domain/graphs/create_post_graph/create_post_graph.py:create_post_graph"
+      "Create Post": "./src/cms_service/infrastructure/langgraph_studio.py:get_create_post_graph"
     },
     "python_version": "3.13",
     "env": "./deep-scribe/.env",
