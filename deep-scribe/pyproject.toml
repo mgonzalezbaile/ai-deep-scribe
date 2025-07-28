@@ -1,7 +1,7 @@
 [project]
-name = "ekona"
+name = "deep-scribe"
 version = "0.1.0"
-description = "Ekona Project"
+description = "deep-scribe Project"
 license = { text = "MIT" }
 requires-python = ">=3.13"
 dependencies = [
@@ -47,4 +47,4 @@ target-version = "py313"
 line-length = 140
 
 [project.scripts]
-ekona = "cms_service.cms_service.infrastructure.cli:main"
+deep-scribe = "cms_service.cms_service.infrastructure.cli:main"

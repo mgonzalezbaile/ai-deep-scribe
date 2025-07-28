@@ -4,7 +4,7 @@
       "Create Post": "./src/cms_service/domain/graphs/create_post_graph/create_post_graph.py:create_post_graph"
     },
     "python_version": "3.13",
-    "env": "./ekona/.env",
+    "env": "./deep-scribe/.env",
     "dependencies": [
       "."
     ]
