@@ -33,7 +33,7 @@ class CreatePostRequest(BaseModel):
     user_request: str
 
 
-@app.post("/posts")
+@app.post("/api/posts")
 async def create_post(request: CreatePostRequest):
     graph = create_post_graph
 
