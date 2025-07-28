@@ -8,6 +8,8 @@ services:
       - "8000:8000"
     env_file:
       - ./deep-scribe/.env
+    depends_on:
+      - mongo
 
   web-ui:
     container_name: deep-scribe-web-ui
@@ -18,3 +20,15 @@ services:
       - "3000:80"
     depends_on:
       - backend
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+

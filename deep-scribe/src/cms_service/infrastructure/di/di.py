@@ -1,5 +1,9 @@
-from common.container.container import PunqContainer
+from common.container.container import IContainer, PunqContainer
 from cms_service.infrastructure.di.services import register_services
 
-container = PunqContainer()
-register_services(container)
+
+def bootstrap() -> IContainer:
+    container = PunqContainer()
+    register_services(container)
+
+    return container

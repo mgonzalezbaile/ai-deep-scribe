@@ -10,6 +10,9 @@ class IContainer(ABC):
     def get(self, key: Type[T]) -> T:
         raise NotImplementedError
 
+    def register(self, *args, **kwargs):
+        raise NotImplementedError
+
 
 class PunqContainer(IContainer):
     def __init__(self):

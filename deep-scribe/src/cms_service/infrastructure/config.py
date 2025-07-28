@@ -40,5 +40,13 @@ class Settings(BaseSettings):
         description="Maximum number of search results to return.",
     )
 
+    MONGO_CONNECTION_STRING: str = Field(
+        description="Connection string for the MongoDB service.",
+    )
+
+    MONGO_DATABASE_NAME: str = Field(
+        description="Database name for the MongoDB service.",
+    )
+
 
 settings = Settings()

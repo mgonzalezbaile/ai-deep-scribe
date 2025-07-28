@@ -5,10 +5,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from cms_service.domain.errors import DomainError
-from cms_service.domain.graphs.create_post_graph.state.agent_state import AgentState, Nodes
-from cms_service.domain.graphs.create_post_graph.create_post_graph import create_post_graph
+from cms_service.domain.use_cases.create_post_command import CreatePostCommand, CreatePostCommandHandler
 from cms_service.infrastructure.api_middlewares import ExceptionHandlingMiddleware
-from langchain_core.messages import AIMessage
+from cms_service.infrastructure.di.di import bootstrap
 
 
 @asynccontextmanager
@@ -16,6 +15,8 @@ async def lifespan(app: FastAPI):
     """Handles startup and shutdown events for the API."""
     yield
 
+
+container = bootstrap()
 
 app = FastAPI(lifespan=lifespan)
 
@@ -35,15 +36,14 @@ class CreatePostRequest(BaseModel):
 
 @app.post("/api/posts")
 async def create_post(request: CreatePostRequest):
-    graph = create_post_graph
-
-    initial_state = AgentState(messages=[AIMessage(content=request.user_request)])
-
     try:
-        output_state = await graph.ainvoke(input=initial_state)
+        command = CreatePostCommand(user_request=request.user_request)
+        handler = container.get(CreatePostCommandHandler)
+
+        post = await handler.execute(command)
 
         return JSONResponse(
-            content=output_state["result"],
+            content=post.model_dump(),
             status_code=201,
         )
 
