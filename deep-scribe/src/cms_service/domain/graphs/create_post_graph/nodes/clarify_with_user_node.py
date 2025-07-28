@@ -17,6 +17,8 @@ async def clarify_with_user_node(state: AgentState, config: RunnableConfig) -> d
     else:
         next_step = Nodes.WRITE_RESEARCH_BRIEF
 
-    return {"messages": [AIMessage(content=response.question)], "next_step": next_step}
-    # else:
-    #     return Command(goto="write_research_brief", update={"messages": [AIMessage(content=response.verification)]})
+    return {
+        "messages": [AIMessage(content=response.question)],
+        "next_step": next_step,
+        "result": response.question,
+    }

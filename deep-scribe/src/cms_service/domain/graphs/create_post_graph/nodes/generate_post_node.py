@@ -13,4 +13,4 @@ async def generate_post_node(state: AgentState) -> dict:
 
     response = await llm.GeneratePost(research_brief=state["research_brief"], findings=json.dumps(findings))
 
-    return {"post": response.content}
+    return {"result": response.content}

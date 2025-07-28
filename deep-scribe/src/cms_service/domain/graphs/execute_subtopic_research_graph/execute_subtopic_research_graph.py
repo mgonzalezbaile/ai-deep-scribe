@@ -12,7 +12,7 @@ from cms_service.domain.graphs.execute_subtopic_research_graph.nodes.summarize_s
     summarize_search_results_node,
 )
 from cms_service.domain.services.search_engine import SearchEngine
-from cms_service.infrastructure.di import container
+from cms_service.infrastructure.di.di import container
 import functools
 
 search_engine = container.get(SearchEngine)

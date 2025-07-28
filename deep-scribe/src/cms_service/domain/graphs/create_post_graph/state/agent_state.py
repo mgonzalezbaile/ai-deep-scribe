@@ -18,11 +18,9 @@ class AgentInputState(MessagesState):
 
 class AgentState(MessagesState):
     next_step: Nodes
-    supervisor_messages: list[MessageLikeRepresentation]
     research_brief: Optional[str]
     raw_notes: list[str] = []
-    final_report: str
-    post: Optional[str]
+    result: Optional[str]
 
 
 class ClarifyWithUser(BaseModel):
