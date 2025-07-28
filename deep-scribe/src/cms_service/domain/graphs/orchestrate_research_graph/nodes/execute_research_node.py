@@ -8,17 +8,11 @@ import asyncio
 from langgraph.pregel import Pregel
 
 
-async def execute_research_node(
-    state: ResearchOrchestrationState, execute_subtopic_research_graph: Pregel
-) -> dict:
+async def execute_research_node(state: ResearchOrchestrationState, execute_subtopic_research_graph: Pregel) -> dict:
     topic_research_tasks = []
 
     for subtopic in state.research_plan.subtopics:
-        topic_research_tasks.append(
-            execute_subtopic_research_graph.ainvoke(
-                SubtopicResearchExecutionState(subtopic=subtopic)
-            )
-        )
+        topic_research_tasks.append(execute_subtopic_research_graph.ainvoke(SubtopicResearchExecutionState(subtopic=subtopic)))
 
     research_results = await asyncio.gather(*topic_research_tasks)
 
