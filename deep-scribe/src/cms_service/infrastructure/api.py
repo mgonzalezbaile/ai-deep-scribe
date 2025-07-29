@@ -4,7 +4,8 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from cms_service.domain.errors import DomainError
+from cms_service.domain.errors import DomainError, NotFoundError
+from cms_service.domain.services.post_repository import PostRepository
 from cms_service.domain.use_cases.create_post_command import CreatePostCommand, CreatePostCommandHandler
 from cms_service.infrastructure.api_middlewares import ExceptionHandlingMiddleware
 from cms_service.infrastructure.di.di import bootstrap
@@ -43,7 +44,7 @@ async def create_post(request: CreatePostRequest):
         post = await handler.execute(command)
 
         return JSONResponse(
-            content=post.model_dump(),
+            content={"id": post.id},
             status_code=201,
         )
 
@@ -52,6 +53,15 @@ async def create_post(request: CreatePostRequest):
             content={"error": str(e)},
             status_code=409,
         )
+
+
+@app.get("/api/posts/{post_id}")
+async def get_post(post_id: str):
+    try:
+        post = await container.get(PostRepository).find_by_id(post_id)
+        return JSONResponse(content=post.model_dump(), status_code=200)
+    except NotFoundError as e:
+        return JSONResponse(content={"error": str(e)}, status_code=404)
 
 
 if __name__ == "__main__":

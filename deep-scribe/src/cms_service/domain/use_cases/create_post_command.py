@@ -1,3 +1,5 @@
+import asyncio
+import uuid
 from langchain_core.messages import AIMessage
 
 from langchain_core.messages import AIMessage
@@ -18,12 +20,18 @@ class CreatePostCommandHandler:
         self.post_repository = post_repository
         self.create_post_graph = create_post_graph
 
-    async def execute(self, command: CreatePostCommand) -> Post:
-        initial_state = AgentState(messages=[AIMessage(content=command.user_request)])
+    async def _generate_and_update_post_content(self, post_id: str, user_request: str):
+        initial_state = AgentState(messages=[AIMessage(content=user_request)])
         output_state = await self.create_post_graph.ainvoke(input=initial_state)
 
-        post = Post(content=output_state["result"])
+        post = Post(id=post_id, content=output_state["result"], state="completed")
 
-        self.post_repository.save(post)
+        await self.post_repository.save(post)
+
+    async def execute(self, command: CreatePostCommand) -> Post:
+        post = Post(id=str(uuid.uuid4()), content="", state="processing")
+        await self.post_repository.save(post)
+
+        asyncio.create_task(self._generate_and_update_post_content(post.id, command.user_request))
 
         return post
