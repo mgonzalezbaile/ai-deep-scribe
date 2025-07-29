@@ -1,4 +1,4 @@
-# Ekona - AI-Powered Content Generation
+AI-Powered Content Generation
 
 This project is a content generation system that creates posts based on deep research of a given topic.
 
