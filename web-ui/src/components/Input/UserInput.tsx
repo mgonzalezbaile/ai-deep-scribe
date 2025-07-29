@@ -4,23 +4,25 @@ import SendIcon from '../Icons/SendIcon';
 interface UserInputProps {
   onGenerate: (request: string) => void;
   isLoading: boolean;
+  hasContent: boolean;
 }
 
-const UserInput: React.FC<UserInputProps> = ({ onGenerate, isLoading }) => {
+const UserInput: React.FC<UserInputProps> = ({ onGenerate, isLoading, hasContent }) => {
   const [request, setRequest] = useState('');
 
   const handleGenerateClick = () => {
     if (request.trim()) {
       onGenerate(request);
+      setRequest('');
     }
   };
 
   return (
     <div className="user-input-container">
-      <label htmlFor="userInput">What would you like to write about?</label>
+      {!hasContent && <label htmlFor="userInput">What would you like to write about?</label>}
       <textarea
         id="userInput"
-        placeholder="e.g., 'The future of artificial intelligence in healthcare' or 'Best practices for sustainable gardening in urban environments'"
+        placeholder={!hasContent ? "e.g., 'The future of artificial intelligence in healthcare' or 'Best practices for sustainable gardening in urban environments'" : "Ask a follow-up..."}
         value={request}
         onChange={(e) => setRequest(e.target.value)}
         disabled={isLoading}

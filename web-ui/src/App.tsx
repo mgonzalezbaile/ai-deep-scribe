@@ -26,7 +26,10 @@ const App: React.FC = () => {
       }
 
       const data = await response.json();
-      setContent(data);
+      if (typeof data.content !== 'string') {
+        throw new Error('Received invalid data format from the server.');
+      }
+      setContent(data.content);
       toast.success('Post generated successfully!');
     } catch (err) {
       if (err instanceof Error) {
@@ -45,8 +48,14 @@ const App: React.FC = () => {
       <Toaster position="bottom-right" />
       <Header />
       <main className="main-content">
-        {!content && <UserInput onGenerate={handleGenerate} isLoading={isLoading} />}
-        {content && <MarkdownDisplay content={content} isLoading={isLoading} />}
+        {content ? (
+          <>
+            <MarkdownDisplay content={content} isLoading={isLoading} />
+            <UserInput onGenerate={handleGenerate} isLoading={isLoading} hasContent={!!content} />
+          </>
+        ) : (
+          <UserInput onGenerate={handleGenerate} isLoading={isLoading} hasContent={!!content} />
+        )}
       </main>
     </div>
   );

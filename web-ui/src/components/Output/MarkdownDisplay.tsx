@@ -10,7 +10,6 @@ interface MarkdownDisplayProps {
 const MarkdownDisplay: React.FC<MarkdownDisplayProps> = ({ content, isLoading }) => {
   return (
     <div className="markdown-display-container">
-      <h2>Generated Post</h2>
       <div className="markdown-content">
         {isLoading ? (
           <div className="loading-spinner"></div>
