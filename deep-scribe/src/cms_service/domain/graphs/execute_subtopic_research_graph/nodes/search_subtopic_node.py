@@ -3,13 +3,17 @@ from cms_service.domain.graphs.execute_subtopic_research_graph.state.topic_resea
 )
 from cms_service.domain.services.search_engine import SearchEngine
 from cms_service.infrastructure.config import settings
+from typing import Awaitable, Callable
 
 
-async def search_subtopic_node(state: SubtopicResearchExecutionState, search_engine: SearchEngine) -> dict:
-    search_results = await search_engine.search(state.subtopic.topic, max_results=settings.MAX_SEARCH_RESULTS)
-    id = 1
-    for search_result in search_results:
-        search_result.id = id
-        id += 1
+def search_subtopic_node(search_engine: SearchEngine) -> Callable[[SubtopicResearchExecutionState], Awaitable[dict]]:
+    async def _search_subtopic_node(state: SubtopicResearchExecutionState) -> dict:
+        search_results = await search_engine.search(state.subtopic.topic, max_results=settings.MAX_SEARCH_RESULTS)
+        id = 1
+        for search_result in search_results:
+            search_result.id = id
+            id += 1
 
-    return {"search_results": search_results}
+        return {"search_results": search_results}
+
+    return _search_subtopic_node

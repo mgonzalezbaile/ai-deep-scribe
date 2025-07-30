@@ -17,10 +17,7 @@ from cms_service.domain.graphs.orchestrate_research_graph.state.research_orchest
 def create_orchestrate_research_graph(execute_subtopic_research_graph: Pregel):
     orchestrate_research_graph_builder = StateGraph(ResearchOrchestrationState)
     orchestrate_research_graph_builder.add_node(Nodes.PLAN_RESEARCH.value, plan_research_node)
-    orchestrate_research_graph_builder.add_node(
-        Nodes.EXECUTE_RESEARCH.value,
-        functools.partial(execute_research_node, execute_subtopic_research_graph=execute_subtopic_research_graph),
-    )
+    orchestrate_research_graph_builder.add_node(Nodes.EXECUTE_RESEARCH.value, execute_research_node(execute_subtopic_research_graph))
 
     orchestrate_research_graph_builder.add_edge(START, Nodes.PLAN_RESEARCH.value)
     orchestrate_research_graph_builder.add_edge(Nodes.PLAN_RESEARCH.value, Nodes.EXECUTE_RESEARCH.value)
