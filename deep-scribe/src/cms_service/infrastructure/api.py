@@ -38,8 +38,8 @@ class CreatePostRequest(BaseModel):
 @app.post("/api/posts")
 async def create_post(request: CreatePostRequest):
     try:
-        command = CreatePostCommand(user_request=request.user_request)
         handler = container.get(CreatePostCommandHandler)
+        command = CreatePostCommand(user_request=request.user_request)
 
         post = await handler.execute(command)
 
@@ -59,7 +59,9 @@ async def create_post(request: CreatePostRequest):
 async def get_post(post_id: str):
     try:
         post = await container.get(PostRepository).find_by_id(post_id)
+
         return JSONResponse(content=post.model_dump(), status_code=200)
+
     except NotFoundError as e:
         return JSONResponse(content={"error": str(e)}, status_code=404)
 
